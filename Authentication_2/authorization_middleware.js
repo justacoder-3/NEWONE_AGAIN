@@ -1,4 +1,4 @@
-// authentication middleware
+// authorization middleware
 // const isAuth = (req, res, next) => {
 //     if (req.isAuthenticated()) {
 //         next();
