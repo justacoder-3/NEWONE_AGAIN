@@ -1,4 +1,4 @@
-// contains most of the routes
+// contains most/all of the routes
 const router = require('express').Router();
 const passport = require('passport');
 const { hashPassword } = require('./password.js');
