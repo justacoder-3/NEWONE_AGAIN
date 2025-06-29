@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+</head>
+
+<body>
+    <h2>Start Chat</h2>
+    <!-- simple design -->
+    <form onsubmit="startChat(event)">
+        <input type="text" id="sender" placeholder="Sender's name" required /><br />
+        <input type="text" id="receiver" placeholder="Reciever's name" required /><br />
+        <button type="submit">Start Chat</button>
+    </form>
+
+    <script>
+
+        // startChat function 
+        function startChat(e) {
+            e.preventDefault();
+            const sender = document.getElementById("sender").value;
+            const receiver = document.getElementById("receiver").value;
+            window.location.href = `chat.html?sender=${sender}&receiver=${receiver}`;
+        }
+    </script>
+</body>
+
+</html>
