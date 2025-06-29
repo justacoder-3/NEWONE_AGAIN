@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Chat</title>
+    <style>
+        #messages {
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- simple design -->
+    <h2 id="chatLabel">Chat</h2>
+    <div id="messages"></div>
+    <input id="messageInput" type="text" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // get info from url and take out sender & reciever
+        const params = new URLSearchParams(location.search);
+        const sender = params.get('sender');
+        const receiver = params.get('receiver');
+
+        document.getElementById("chatLabel").innerText = `You (${sender}) chatting with ${receiver}`;
+
+        socket.emit("register", sender); // passing sender's data to server.js via socket.emit
+
+        // function for adding messages to the message box
+        function addMessage(msg) {
+            const div = document.createElement("div");
+            div.innerText = msg;
+            document.getElementById("messages").appendChild(div);
+        }
+
+        // function for "sending message to other person"
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            const text = input.value.trim();
+            if (text) {
+                socket.emit("private_message", {
+                    to: receiver,
+                    from: sender,
+                    text: text
+                });
+                input.value = "";
+                addMessage(`You: ${text}`);
+            }
+        }
+
+        socket.on("private_message", (data) => {
+            addMessage(`${data.from}: ${data.text}`);
+        });
+
+    </script>
+</body>
+
+</html>
